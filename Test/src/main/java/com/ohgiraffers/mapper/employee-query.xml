@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="selectEmployee">
+        select
+            *
+        from
+            employee
+    </entry>
+
+    <entry key="selectEmployee2">
+        SELECT
+            EMP_ID,
+            EMP_NAME
+        FROM
+            EMPLOYEE
+    </entry>
+</properties>
