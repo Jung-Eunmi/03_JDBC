@@ -46,7 +46,7 @@ public class Application2 {
 
         try {
             prop.loadFromXML(
-                    new FileInputStream("scr/main/java/com/ohgiraffers/mapper/menu-query.xml")
+                    new FileInputStream("src/main/java/com/ohgiraffers/mapper/menu-query.xml")
             );
 
             String query = prop.getProperty("insertMenu");
@@ -57,6 +57,8 @@ public class Application2 {
             pstmt.setInt(2, newMenu.getMenuPrice());
             pstmt.setInt(3, newMenu.getCategoryCode());
             pstmt.setString(4, newMenu.getOrderableStatus());
+
+            result = pstmt.executeUpdate();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
