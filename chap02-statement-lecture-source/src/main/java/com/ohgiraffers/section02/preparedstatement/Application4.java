@@ -6,37 +6,44 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static com.ohgiraffers.common.JDBCTemplate.close;
 import static com.ohgiraffers.common.JDBCTemplate.getConnection;
 
-public class Application3 {
+public class Application4 {
 
     public static void main(String[] args) {
 
+        /* index 1. EMPLOYEE 테이블에서 조회 할 사원의 성씨를 입력받아
+                    해당하는 성을 가지고 있는 사원의 정보를 모두 출력하시오 */
         Connection con = getConnection();
 
         PreparedStatement pstmt = null;
 
         ResultSet rset = null;
 
-        // 1명의 회원정보를 관리할 EmployeeDTO 사용
         EmployeeDTO emp = null;
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("조회할 사번 입력 : ");
-        String empId = sc.nextLine();
+        List<EmployeeDTO> empList = null;
 
-        String query = "SELECT * FROM EMPLOYEE WHERE EMP_ID = ?";
+        Scanner sc = new Scanner(System.in);
+        System.out.print("조회 할 사원의 성을 입력하세요 : ");
+        String empName = sc.nextLine();
+
+        String query = "SELECT * FROM EMPLOYEE WHERE EMP_NAME LIKE CONCAT(?, '%')";
 
         try {
-            pstmt = con.prepareStatement(query);
-            pstmt.setString(1,empId);
+            pstmt=con.prepareStatement(query);
+            pstmt.setString(1, empName);
 
             rset = pstmt.executeQuery();
 
-            if (rset.next()) {
+            empList = new ArrayList<>();
+
+            while (rset.next()) {
                 emp = new EmployeeDTO();
 
                 emp.setEmpId(rset.getString("EMP_ID"));
@@ -53,6 +60,8 @@ public class Application3 {
                 emp.setHireDate(rset.getDate("HIRE_DATE"));
                 emp.setEntDate(rset.getDate("ENT_DATE"));
                 emp.setEntYn(rset.getString("ENT_YN"));
+
+                empList.add(emp);
             }
 
         } catch (SQLException e) {
@@ -63,7 +72,10 @@ public class Application3 {
             close(con);
         }
 
-        System.out.println("emp = " + emp);
+        for (EmployeeDTO empDTO : empList) {
+            System.out.println("oneEmployee = " + empDTO);
+
+        }
 
     }
 
